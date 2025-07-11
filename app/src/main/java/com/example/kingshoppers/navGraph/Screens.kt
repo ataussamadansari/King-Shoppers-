@@ -7,4 +7,5 @@ sealed class Screens(val screen: String) {
     data object Brands: Screens("brands")
     data object Wallet: Screens("wallet")
     data object Cart: Screens("cart")
+    data object MyAccount: Screens("account")
 }

@@ -43,7 +43,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.kingshoppers.R
+import com.example.kingshoppers.menu.OptionMenu
 import com.example.kingshoppers.ui.theme.Purple40
 import com.example.kingshoppers.ui.theme.White
 import com.example.kingshoppers.utils.BenefitsView
@@ -54,13 +56,14 @@ import com.example.kingshoppers.utils.dommydata.getDummyCategories
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, appNavController: NavController) {
     val context = LocalContext.current.applicationContext
+    var expanded by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    /*Text(text = stringResource(R.string.app_name))*/
                     Image(
                         painter = painterResource(
                             R.drawable.title_logo_1
@@ -69,10 +72,13 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     )
                 },
                 actions = {
-                    IconButton(onClick = {
-                        Toast.makeText(context, "Menu", Toast.LENGTH_SHORT).show()
-                    }) {
-                        Icon(imageVector = Icons.Default.MoreVert, contentDescription = "MoreVert")
+                    Box(
+//                        modifier = Modifier.padding(horizontal = 12.dp)
+                    ) {
+                        IconButton(onClick = { expanded = !expanded }) {
+                            Icon(imageVector = Icons.Default.MoreVert, contentDescription = "MoreVert")
+                        }
+                        OptionMenu(expanded = expanded, onDismiss = { expanded = false }, appNavController = appNavController)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -84,7 +90,6 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(paddingValues)
                 .background(White)
         ) {
@@ -133,7 +138,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
 
             LazyColumn(
                 modifier = Modifier
-                    .padding(bottom = 100.dp),
+                    .padding(bottom = 75.dp)
+                ,
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             )
             {

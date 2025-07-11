@@ -14,6 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.kingshoppers.R
@@ -23,100 +25,9 @@ import com.example.kingshoppers.ui.theme.Purple80
 import com.example.kingshoppers.ui.theme.White
 
 @Composable
-fun MainScreen(activity: Activity) {
-    /*val navController = rememberNavController()
-
-    val selected = remember {
-        mutableStateOf(Icons.Default.Home)
-    }
-
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            BottomAppBar(
-//                containerColor = GreenJC
-            ) {
-                IconButton(
-                    onClick = {
-                        selected.value = Icons.Default.Home
-                        navController.navigate(Screens.Home.screen) {
-                            popUpTo(0)
-                        }
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(
-                        Icons.Default.Home,
-                        contentDescription = "Home",
-                        modifier = Modifier.size(26.dp),
-                        tint = if (selected.value == Icons.Default.Home) Purple40 else Color.DarkGray
-                    )
-                }
-                IconButton(
-                    onClick = {
-                        selected.value = Icons.Default.Star
-                        navController.navigate(Screens.Brands.screen) {
-                            popUpTo(0)
-                        }
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(
-                        Icons.Default.Star,
-                        contentDescription = "Brands",
-                        modifier = Modifier.size(26.dp),
-                        tint = if (selected.value == Icons.Default.Star) Purple40 else Color.DarkGray
-                    )
-                }
-
-                IconButton(
-                    onClick = {
-                        selected.value = Icons.Default.MoreVert
-                        navController.navigate(Screens.Wallet.screen) {
-                            popUpTo(0)
-                        }
-                    },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Icon(
-                        Icons.Default.MoreVert,
-                        contentDescription = "Wallet",
-                        modifier = Modifier.size(26.dp),
-                        tint = if (selected.value == Icons.Default.MoreVert) Purple40 else Color.DarkGray
-                    )
-                }
-                Column(
-//                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    IconButton(
-                        onClick = {
-                            selected.value = Icons.Default.ShoppingCart
-                            navController.navigate(Screens.Cart.screen) {
-                                popUpTo(0)
-                            }
-                        },
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Icon(
-                            Icons.Default.ShoppingCart,
-                            contentDescription = "Cart",
-                            modifier = Modifier.size(26.dp),
-                            tint = if (selected.value == Icons.Default.ShoppingCart) Purple40 else Color.DarkGray
-                        )
-                    }
-                    Text(text = "Cart")
-                }
-            }
-        }
-    ) { paddingValues ->
-        BottomNavGraph(navController = navController, modifier = Modifier.padding(paddingValues))
-    }*/
-
-    NavigationBarExample(activity = activity)
+fun MainScreen(navController: NavController, activity: Activity) {
+       NavigationBarExample(appNavController = navController, activity = activity)
 }
-
 
 enum class Destination(
     val route: String,
@@ -127,20 +38,17 @@ enum class Destination(
     Home("home", "Home", R.drawable.ic_home, "Home"),
     Brands("brands", "Brands", R.drawable.ic_brand, "Brands"),
     Wallet("wallet", "Wallet", R.drawable.ic_wallet, "Wallet"),
-    Cart("cart", "Cart", R.drawable.ic_shopping_bag, "Cart")
+    Cart("cart", "Cart", R.drawable.ic_shopping_bag, "Cart"),
 }
 
 
 @Composable
-fun NavigationBarExample(modifier: Modifier = Modifier, activity: Activity) {
+fun NavigationBarExample(modifier: Modifier = Modifier, appNavController: NavController, activity: Activity) {
     val navController = rememberNavController()
     val startDestination = Destination.Home
-//    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
-
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
     val selectedIndex = Destination.entries.indexOfFirst { it.route == currentRoute }.coerceAtLeast(0)
-
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination?.route
 
     Scaffold(
@@ -150,26 +58,8 @@ fun NavigationBarExample(modifier: Modifier = Modifier, activity: Activity) {
                 containerColor = White) {
                 Destination.entries.forEachIndexed { index, destination ->
                     NavigationBarItem(
-//                        selected = selectedDestination == index,
                         selected = selectedIndex == index,
                         onClick = {
-                            /*if (destination.route == "home") {
-                                if (currentDestination == "home") {
-                                    activity.finish() // exit app
-                                } else {
-                                    navController.navigate("home") {
-                                        popUpTo("home") { inclusive = true }
-                                    }
-                                    activity.finish() // optional: exit after home
-                                }
-                            } else {
-                                navController.navigate(destination.route) {
-                                    popUpTo("home") // Optional: to reset stack
-                                    launchSingleTop = true
-                                }
-                                selectedDestination = index
-                            }*/
-
                             if (destination.route == "home") {
                                 if (currentRoute == "home") {
                                     activity.finish()
@@ -185,11 +75,6 @@ fun NavigationBarExample(modifier: Modifier = Modifier, activity: Activity) {
                                 }
                             }
                         },
-
-                        /*onClick = {
-                            navController.navigate(route = destination.route)
-                            selectedDestination = index
-                        },*/
                         icon = {
                             Icon(
                                 painter = painterResource(destination.icon),
@@ -209,6 +94,6 @@ fun NavigationBarExample(modifier: Modifier = Modifier, activity: Activity) {
             }
         }
     ) { contentPadding ->
-        BottomNavGraph(navController, startDestination, modifier = Modifier.padding(contentPadding))
+        BottomNavGraph(navController = navController, appNavController = appNavController, startDestination, modifier = Modifier.padding(contentPadding))
     }
 }

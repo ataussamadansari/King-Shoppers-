@@ -58,4 +58,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation("androidx.navigation:navigation-compose:2.9.1")
+    implementation("io.coil-kt.coil3:coil-compose:3.2.0")
+
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
 }

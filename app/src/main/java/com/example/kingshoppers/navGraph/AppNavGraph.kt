@@ -1,7 +1,11 @@
 package com.example.kingshoppers.navGraph
 
 import android.app.Activity
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
@@ -28,6 +32,7 @@ fun AppNavGraph(navController: NavHostController, activity: Activity) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,

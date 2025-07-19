@@ -1,6 +1,6 @@
 package com.example.kingshoppers.model
 
-data class SubCategory(
+data class OtherBrandsCategory (
     val title: String,
     val image: Int,
     val product: List<Product>

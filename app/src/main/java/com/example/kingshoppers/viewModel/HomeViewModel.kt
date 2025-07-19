@@ -2,15 +2,15 @@ package com.example.kingshoppers.viewModel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.kingshoppers.model.Category
-import com.example.kingshoppers.utils.dommydata.getDummyCategories
 import androidx.compose.runtime.State
+import com.example.kingshoppers.model.MasterCategory
+import com.example.kingshoppers.utils.dommydata.getDummyCategories
 
 
 class HomeViewModel : ViewModel() {
 
-    private val _categories = mutableStateOf<List<Category>>(emptyList())
-    val categories: State<List<Category>> = _categories
+    private val _categories = mutableStateOf<List<MasterCategory>>(emptyList())
+    val categories: State<List<MasterCategory>> = _categories
 
     init {
         loadLocalCategories()

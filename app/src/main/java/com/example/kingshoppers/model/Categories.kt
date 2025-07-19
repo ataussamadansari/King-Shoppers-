@@ -1,7 +1,7 @@
 package com.example.kingshoppers.model
 
-data class SubCategory(
+data class Categories(
     val title: String,
-    val image: Int,
+    val subCategories: List<SubCategory> = emptyList(),
     val product: List<Product>
 )

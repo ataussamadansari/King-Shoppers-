@@ -1,21 +1,48 @@
 package com.example.kingshoppers.ui.screens
 
 import android.app.Activity
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Storefront
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.kingshoppers.R
@@ -26,7 +53,7 @@ import com.example.kingshoppers.ui.theme.White
 
 @Composable
 fun MainScreen(navController: NavController, activity: Activity) {
-       NavigationBarExample(appNavController = navController, activity = activity)
+    NavigationBarExample(appNavController = navController, activity = activity)
 }
 
 enum class Destination(
@@ -42,24 +69,37 @@ enum class Destination(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavigationBarExample(modifier: Modifier = Modifier, appNavController: NavController, activity: Activity) {
+fun NavigationBarExample(
+    modifier: Modifier = Modifier,
+    appNavController: NavController,
+    activity: Activity
+) {
     val navController = rememberNavController()
     val startDestination = Destination.Home
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
-    val selectedIndex = Destination.entries.indexOfFirst { it.route == currentRoute }.coerceAtLeast(0)
+    val selectedIndex =
+        Destination.entries.indexOfFirst { it.route == currentRoute }.coerceAtLeast(0)
     val currentDestination = navController.currentBackStackEntryAsState().value?.destination?.route
+    val context = LocalContext.current.applicationContext
 
     Scaffold(
         modifier = modifier,
         bottomBar = {
-            NavigationBar(windowInsets = NavigationBarDefaults.windowInsets,
-                containerColor = White) {
+            NavigationBar(
+                windowInsets = NavigationBarDefaults.windowInsets,
+                containerColor = White
+            ) {
                 Destination.entries.forEachIndexed { index, destination ->
                     NavigationBarItem(
                         selected = selectedIndex == index,
                         onClick = {
+                            Log.d(
+                                "TAG",
+                                "selectedIndex: $selectedIndex, currentRoute: $currentRoute, "
+                            )
                             if (destination.route == "home") {
                                 if (currentRoute == "home") {
                                     activity.finish()
@@ -94,6 +134,13 @@ fun NavigationBarExample(modifier: Modifier = Modifier, appNavController: NavCon
             }
         }
     ) { contentPadding ->
-        BottomNavGraph(navController = navController, appNavController = appNavController, startDestination, modifier = Modifier.padding(contentPadding))
+        BottomNavGraph(
+            navController = navController,
+            appNavController = appNavController,
+            startDestination,
+            modifier = Modifier.padding(contentPadding)
+        )
     }
 }
+
+

@@ -67,7 +67,7 @@ fun ProductItem(product: ProductItem) {
                 GlideImage(
                     model = product.image,
                     contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp)

@@ -11,7 +11,7 @@ val dummyJson = """
       {
         "id": 1,
         "name": "Ajdsfjso sdh h gkdjfkvjbdj hd bjhdfb kfgb",
-        "image": "https://img.freepik.com/free-photo/young-woman-yellow-leather-jacket-sales-banner_23-2148674149.jpg",
+        "image": "https://raw.githubusercontent.com/ataussamadansari/King-Shoppers-/refs/heads/main/app/src/main/res/drawable/product_500.png",
         "labelPercentage": "4"
       },
       {
@@ -63,6 +63,7 @@ val dummyJson = """
       {
         "id": 8,
         "name": "Ajdsfjso sdh h gkdjfkvjbdj hd bjhdfb kfgb",
+        "image":"https://raw.githubusercontent.com/ataussamadansari/King-Shoppers-/refs/heads/main/app/src/main/res/drawable/product_500.png",
         "labelPercentage": "30"  
       }
     ]

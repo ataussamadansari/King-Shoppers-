@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -39,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.kingshoppers.model.BannerItem
 import com.example.kingshoppers.model.layouts.HomeSection
 import com.example.kingshoppers.ui.screens.itemLayout.DealLayout
@@ -47,12 +47,11 @@ import com.example.kingshoppers.ui.screens.masterCategories.MasterCategoryItem
 import com.example.kingshoppers.ui.theme.Purple40
 import com.example.kingshoppers.ui.theme.White
 import com.example.kingshoppers.utils.pager.BannerSlider
-import com.example.kingshoppers.utils.pager.HorizontalPagerSample
 import com.example.kingshoppers.utils.update.AppUpdate
 import com.example.kingshoppers.viewModel.HomeViewModel
 import com.example.kingshoppers.viewModel.MasterCategoryViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -79,23 +78,24 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Purple40)
-    ) {
+    )
+    {
 
         Column(
             modifier = modifier
                 .fillMaxSize()
         ) {
 
-            AnimatedVisibility(
-                visible = !isCollapsed,
-            ) {
+            // TopBar
+            AnimatedVisibility(visible = !isCollapsed) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
+                )
+                {
                     Icon(
                         imageVector = Icons.Default.Storefront,
                         contentDescription = null,
@@ -128,12 +128,12 @@ fun HomeScreen(
                 }
             }
 
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 12.dp, vertical = 12.dp),
-            ) {
+            )
+            {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -154,6 +154,8 @@ fun HomeScreen(
                 }
             }
 
+
+            // Body Start
             LazyColumn(
                 state = listState,
                 modifier = Modifier
@@ -169,13 +171,19 @@ fun HomeScreen(
                 // 2 items per row manually
                 items(masterCategories.chunked(2)) { rowItems ->
                     Row(
-                        modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth(),
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp)
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         for (item in rowItems) {
                             Box(modifier = Modifier.weight(1f)) {
                                 MasterCategoryItem(item) {
-                                    Toast.makeText(context, "Click: ${item.title}", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        "Click: ${item.title}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         }
@@ -187,11 +195,22 @@ fun HomeScreen(
 
 
                 val banners = listOf(
-                    BannerItem("https://img.freepik.com/free-vector/cartoon-style-eco-cleaning-background_52683-79729.jpg", type = "product", id = "1"),
-                    BannerItem("https://img.freepik.com/free-photo/toilet-bag-products-arrangement_23-2149879995.jpg", type = "category", id = "cat1"),
-                    BannerItem("https://img.freepik.com/free-vector/realistic-peanut-butter-horizontal-advertising-with-branded-product-editable-text-arachis-bean-images_1284-29379.jpg", type = "category", id = "cat1")
+                    BannerItem(
+                        "https://img.freepik.com/free-vector/cartoon-style-eco-cleaning-background_52683-79729.jpg",
+                        type = "product",
+                        id = "1"
+                    ),
+                    BannerItem(
+                        "https://img.freepik.com/free-photo/toilet-bag-products-arrangement_23-2149879995.jpg",
+                        type = "category",
+                        id = "cat1"
+                    ),
+                    BannerItem(
+                        "https://img.freepik.com/free-vector/realistic-peanut-butter-horizontal-advertising-with-branded-product-editable-text-arachis-bean-images_1284-29379.jpg",
+                        type = "category",
+                        id = "cat1"
+                    )
                 )
-
 
 
                 // 3 Pager

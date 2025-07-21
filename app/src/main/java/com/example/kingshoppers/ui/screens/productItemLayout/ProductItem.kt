@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -37,11 +39,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.kingshoppers.R
 import com.example.kingshoppers.model.ProductItem
 import com.example.kingshoppers.ui.theme.Green
+import com.example.kingshoppers.ui.theme.Purple40
 import com.example.kingshoppers.ui.theme.White
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -68,10 +71,9 @@ fun ProductItem(product: ProductItem) {
                 GlideImage(
                     model = product.image,
                     contentDescription = null,
-                    contentScale = ContentScale.FillWidth,
+                    contentScale = ContentScale.FillBounds,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color.LightGray)
                         .height(120.dp)
                 )
                 Text(
@@ -82,10 +84,51 @@ fun ProductItem(product: ProductItem) {
                     ),
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2,
+                    minLines = 2,
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .fillMaxSize(),
                 )
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .fillMaxSize(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .background(Color(0x80CCCCCC), shape = RoundedCornerShape(6.dp))
+                            .padding(4.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_flash),
+                            contentDescription = product.deliveryDays,
+                            tint = Color(0xFFFF9800)
+                        )
+                        product.deliveryDays?.let {
+                            Text(
+                                text = it,
+                                fontSize = 11.sp,
+                                lineHeight = 1.sp,
+                                color = Color.DarkGray
+                            )
+                        }
+                    }
+
+                    product.weight?.let {
+                        Text(
+                            text = it,
+                            fontSize = 11.sp,
+                            lineHeight = 1.sp,
+                            color = Purple40,
+                            modifier = Modifier
+                                .background(Color(0x1B835AFC), shape = RoundedCornerShape(6.dp))
+                                .padding(4.dp)
+                        )
+                    }
+                }
 
                 Row(
                     modifier = Modifier
@@ -102,7 +145,7 @@ fun ProductItem(product: ProductItem) {
                                     textDecoration = TextDecoration.LineThrough
                                 )
                             ) {
-                                append("500.00")
+                                append(product.cutMRP)
                             }
                         },
                         color = Color.Gray,
@@ -110,9 +153,8 @@ fun ProductItem(product: ProductItem) {
                         fontWeight = FontWeight.SemiBold
                     )
 
-//                    Text(text = "MRP ₹500.00", color = Color.Gray, fontSize = 11.sp)
                     Text(
-                        text = "18.0%",
+                        text = "${product.percentageOff}%",
                         color = Green,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold
@@ -127,17 +169,17 @@ fun ProductItem(product: ProductItem) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "₹500.00",
+                        text = product.totalPrice,
                         color = Color.Black,
-                        fontSize = 16.sp,
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold
                     )
                     Button(
                         onClick = {},
-                        shape = RoundedCornerShape(12.dp),
-                        modifier = Modifier.height(35.dp)
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.height(32.dp)
                     ) {
-                        Text(text = "Add")
+                        Text(text = "Add", lineHeight = 1.sp)
                     }
                 }
 
@@ -155,7 +197,7 @@ fun ProductItem(product: ProductItem) {
 
 @Composable
 fun VerticalDiscountBadge(
-    discountPercent: String = "1%",
+    discountPercent: String,
     backgroundColor: Color = Color.Red,
     textColor: Color = Color.White,
     modifier: Modifier = Modifier
@@ -177,7 +219,7 @@ fun VerticalDiscountBadge(
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
-                    text = discountPercent + "\nOFF",
+                    text = "$discountPercent%\nOFF",
                     color = textColor,
                     fontWeight = FontWeight.Bold,
                     fontSize = 8.sp,

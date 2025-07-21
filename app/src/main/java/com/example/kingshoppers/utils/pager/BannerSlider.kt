@@ -52,7 +52,7 @@ fun BannerSlider(
 
             Box(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(12.dp)
                     .clip(RoundedCornerShape(12.dp))
                     .clickable { onBannerClick(banner) }
                     .background(Color.LightGray)

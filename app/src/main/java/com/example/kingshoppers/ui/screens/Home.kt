@@ -1,6 +1,6 @@
 package com.example.kingshoppers.ui.screens
 
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,17 +34,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.kingshoppers.repository.MasterCategoryRepository
+import com.example.kingshoppers.model.layouts.HomeSection
+import com.example.kingshoppers.ui.screens.itemLayout.DealLayout
+import com.example.kingshoppers.ui.screens.itemLayout.LootLayout
 import com.example.kingshoppers.ui.screens.masterCategories.MasterCategoryItem
 import com.example.kingshoppers.ui.theme.Purple40
 import com.example.kingshoppers.ui.theme.White
 import com.example.kingshoppers.utils.pager.HorizontalPagerSample
 import com.example.kingshoppers.utils.update.AppUpdate
+import com.example.kingshoppers.viewModel.HomeViewModel
 import com.example.kingshoppers.viewModel.MasterCategoryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,6 +67,11 @@ fun HomeScreen(
     val masterCategories by viewModel.masterCategories.collectAsState()
     val brands = viewModel.getBrands()
     val categories = viewModel.getCategories()
+
+    val context = LocalContext.current.applicationContext
+
+    val homeViewModel: HomeViewModel = viewModel()
+    val sections by homeViewModel.sections.collectAsState()
 
     Box(
         modifier = Modifier
@@ -118,6 +126,7 @@ fun HomeScreen(
                 }
             }
 
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -147,40 +156,45 @@ fun HomeScreen(
                 state = listState,
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(White)
-                    .padding(12.dp)
+                    .background(White),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
                 item {
                     AppUpdate(true)
-                    Spacer(modifier = Modifier.padding(8.dp))
                 }
-
 
                 // 2 items per row manually
-                items(masterCategories) { category ->
-                    MasterCategoryItem(category = category) {
-//                        onCategoryClick(category)
+                items(masterCategories.chunked(2)) { rowItems ->
+                    Row(
+                        modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        for (item in rowItems) {
+                            Box(modifier = Modifier.weight(1f)) {
+                                MasterCategoryItem(item) {
+                                    Toast.makeText(context, "Click: ${item.title}", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                        if (rowItems.size < 2) {
+                            Spacer(modifier = Modifier.weight(1f)) // Fill the empty space
+                        }
                     }
                 }
-                item {
-                    Text(text = "Brands")
-                    brands.forEach {
-                        Text(text = it.title)
-                    }
 
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Text(text = "Categories")
-                    categories.forEach {
-                        Text(text = it.title)
-                    }
-                }
 
                 // 3 Pager
                 item {
-                    Spacer(modifier = Modifier.height(12.dp))
                     HorizontalPagerSample()
+                }
+
+                // 4
+                items(sections) { section ->
+                    when (section) {
+                        is HomeSection.LootSection -> LootLayout(section)
+                        is HomeSection.DealSection -> DealLayout(section)
+                    }
                 }
 
             }

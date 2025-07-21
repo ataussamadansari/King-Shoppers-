@@ -4,5 +4,5 @@ data class BrandsCategory(
     val title: String,
     val image: Int,
     val otherBrandsCategories: List<OtherBrandsCategory> = emptyList(),
-    val product: List<Product>
+    val product: List<ProductItem>
 )

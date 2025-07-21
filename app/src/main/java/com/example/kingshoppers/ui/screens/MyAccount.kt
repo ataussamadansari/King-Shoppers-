@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,7 +37,7 @@ fun MyAccountScreen(modifier: Modifier = Modifier, navController: NavController)
                             navController.navigateUp()
                         }
                     ) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back Btn")
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back Btn")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(

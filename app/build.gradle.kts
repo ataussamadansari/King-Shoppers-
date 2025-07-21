@@ -58,8 +58,13 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("androidx.navigation:navigation-compose:2.9.1")
+    implementation("androidx.navigation:navigation-compose:2.9.2")
     implementation("io.coil-kt.coil3:coil-compose:3.2.0")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.36.0")
+
+    implementation("com.google.code.gson:gson:2.13.1")
+
+    implementation("com.github.bumptech.glide:glide:5.0.0-rc01")
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
 }

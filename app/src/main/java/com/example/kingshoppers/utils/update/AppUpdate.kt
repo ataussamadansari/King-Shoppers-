@@ -27,6 +27,7 @@ fun AppUpdate(isAvailable: Boolean) {
     if (isAvailable) {
         Row(
             modifier = Modifier
+                .padding(start = 12.dp, end = 12.dp, top = 12.dp)
                 .fillMaxWidth()
                 .background(Color(0xFF3FDC85), shape = RoundedCornerShape(12.dp))
                 .padding(vertical = 4.dp, horizontal = 8.dp),

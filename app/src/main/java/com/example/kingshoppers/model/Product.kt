@@ -1,9 +1,8 @@
 package com.example.kingshoppers.model
 
-data class Product(
+data class ProductItem(
     val id: Int,
     val name: String,
-    val price: Double,
-    val unit: String,
-    val image: Int
+    val image: String,
+    val labelPercentage: String?,
 )

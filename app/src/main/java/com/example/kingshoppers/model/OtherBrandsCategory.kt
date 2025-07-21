@@ -3,5 +3,5 @@ package com.example.kingshoppers.model
 data class OtherBrandsCategory (
     val title: String,
     val image: Int,
-    val product: List<Product>
+    val product: List<ProductItem>
 )

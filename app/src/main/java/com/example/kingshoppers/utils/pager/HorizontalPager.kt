@@ -44,8 +44,6 @@ fun HorizontalPagerSample() {
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
         HorizontalPagerIndicator(
             pageCount = pageCount,
             currentPage = pagerState.currentPage,

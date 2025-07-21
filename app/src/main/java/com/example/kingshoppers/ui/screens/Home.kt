@@ -39,12 +39,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.kingshoppers.model.BannerItem
 import com.example.kingshoppers.model.layouts.HomeSection
 import com.example.kingshoppers.ui.screens.itemLayout.DealLayout
 import com.example.kingshoppers.ui.screens.itemLayout.LootLayout
 import com.example.kingshoppers.ui.screens.masterCategories.MasterCategoryItem
 import com.example.kingshoppers.ui.theme.Purple40
 import com.example.kingshoppers.ui.theme.White
+import com.example.kingshoppers.utils.pager.BannerSlider
 import com.example.kingshoppers.utils.pager.HorizontalPagerSample
 import com.example.kingshoppers.utils.update.AppUpdate
 import com.example.kingshoppers.viewModel.HomeViewModel
@@ -184,9 +186,20 @@ fun HomeScreen(
                 }
 
 
+                val banners = listOf(
+                    BannerItem("https://img.freepik.com/free-vector/cartoon-style-eco-cleaning-background_52683-79729.jpg", type = "product", id = "1"),
+                    BannerItem("https://img.freepik.com/free-photo/toilet-bag-products-arrangement_23-2149879995.jpg", type = "category", id = "cat1"),
+                    BannerItem("https://img.freepik.com/free-vector/realistic-peanut-butter-horizontal-advertising-with-branded-product-editable-text-arachis-bean-images_1284-29379.jpg", type = "category", id = "cat1")
+                )
+
+
+
                 // 3 Pager
                 item {
-                    HorizontalPagerSample()
+//                    HorizontalPagerSample()
+                    BannerSlider(bannerItems = banners) { clickedBanner ->
+
+                    }
                 }
 
                 // 4

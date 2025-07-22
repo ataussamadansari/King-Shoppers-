@@ -22,26 +22,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.kingshoppers.R
 import com.example.kingshoppers.navGraph.Graph
 import com.example.kingshoppers.ui.theme.Purple40
 import com.example.kingshoppers.ui.theme.White
-import com.example.kingshoppers.utils.PrefManager
+import com.example.kingshoppers.viewModel.LoggedInViewModel
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
 @Composable
 fun SplashScreen(navController: NavController) {
     val context = LocalContext.current
 
-    val prefManager = PrefManager
+    val loggedInViewModel  = viewModel<LoggedInViewModel>()
 
     LaunchedEffect(key1 = true) {
         delay(2000) // Splash delay (2 seconds)
 
-        val isLoggedIn = prefManager.getLoginStatus(context)
 
-        if (isLoggedIn) {
+        if (loggedInViewModel.isLoggedIn()) {
             navController.navigate(Graph.MainScreenGraph) {
                 popUpTo(Graph.AuthGraph) { inclusive = true }
             }
@@ -65,7 +67,11 @@ fun SplashScreen(navController: NavController) {
             Image(
                 painter = painterResource(R.drawable.title_logo_2),
                 contentDescription = "App Logo",
-                modifier = Modifier.clip(shape = CircleShape).size(150.dp).background(White).padding(12.dp)
+                modifier = Modifier
+                    .clip(shape = CircleShape)
+                    .size(150.dp)
+                    .background(White)
+                    .padding(12.dp)
             )
 
             Text(

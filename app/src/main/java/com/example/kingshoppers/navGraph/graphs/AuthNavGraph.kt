@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import com.example.kingshoppers.navGraph.AuthRouteScreen
 import com.example.kingshoppers.navGraph.Graph
 import com.example.kingshoppers.ui.screens.auth.AuthScreen
+import com.example.kingshoppers.ui.screens.auth.OtpScreen
 
 fun NavGraphBuilder.authNavGraph(
     rootNavController: NavHostController
@@ -20,5 +21,11 @@ fun NavGraphBuilder.authNavGraph(
         ) {
             AuthScreen(navController = rootNavController)
         }
+
+        composable(route = AuthRouteScreen.Otp.route) { backStackEntry ->
+            val phone = backStackEntry.arguments?.getString("phone") ?: ""
+            OtpScreen(phone = phone, navController = rootNavController)
+        }
+
     }
 }

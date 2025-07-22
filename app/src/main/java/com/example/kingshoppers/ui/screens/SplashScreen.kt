@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -34,16 +35,14 @@ import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @Composable
-fun SplashScreen(navController: NavController) {
+fun SplashScreen(navController: NavController, loggedInViewModel: LoggedInViewModel = hiltViewModel()) {
     val context = LocalContext.current
 
-    val loggedInViewModel  = viewModel<LoggedInViewModel>()
+    val isLoggedIn = loggedInViewModel.isLoggedIn()
 
-    LaunchedEffect(key1 = true) {
-        delay(2000) // Splash delay (2 seconds)
-
-
-        if (loggedInViewModel.isLoggedIn()) {
+    LaunchedEffect(Unit) {
+        delay(5000)
+        if (isLoggedIn) {
             navController.navigate(Graph.MainScreenGraph) {
                 popUpTo(Graph.AuthGraph) { inclusive = true }
             }

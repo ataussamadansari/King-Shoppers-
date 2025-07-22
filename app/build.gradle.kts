@@ -93,7 +93,15 @@ dependencies {
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.9.2")
 
+    implementation("androidx.lifecycle:lifecycle-livedata:2.9.2")
+
+    implementation("androidx.compose.runtime:runtime-livedata:1.9.0-beta03")
+
     //dagger hilt
     implementation("com.google.dagger:hilt-android:2.57")
     ksp("com.google.dagger:hilt-android-compiler:2.57")
+    implementation("androidx.hilt:hilt-navigation-compose:1.3.0-alpha02")
+
+    // spin-kit
+    implementation("com.github.OCNYang:Compose-SpinKit:1.0.4")
 }

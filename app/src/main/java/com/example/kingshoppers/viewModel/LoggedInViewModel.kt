@@ -10,4 +10,8 @@ class LoggedInViewModel @Inject constructor(private val tokenManager: TokenManag
     fun isLoggedIn(): Boolean {
         return tokenManager.getToken() != null
     }
+
+    fun saveToken(token: String) {
+        tokenManager.saveToken(token)
+    }
 }

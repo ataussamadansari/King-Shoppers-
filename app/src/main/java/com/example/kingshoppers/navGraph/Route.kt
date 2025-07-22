@@ -13,9 +13,11 @@ sealed class SplashRouteScreen(val route: String) {
 }
 sealed class AuthRouteScreen(val route: String) {
     object Login : AuthRouteScreen("login")
-    object Otp : AuthRouteScreen("verify_otp/{phone}")
 
-    fun withArgs(phone: String): String = "verify_otp/$phone"
+    object Otp : AuthRouteScreen("verify_otp/{phone}") {
+        fun withArgs(phone: String): String = "verify_otp/$phone"
+    }
+
 }
 
 sealed class MainScreenRoute(val route: String) {

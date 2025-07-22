@@ -1,5 +1,7 @@
 package com.example.kingshoppers.ui.screens.auth
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -16,50 +18,52 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.kingshoppers.R
 import com.example.kingshoppers.model.auth.SendOtpRequest
 import com.example.kingshoppers.navGraph.AuthRouteScreen
 import com.example.kingshoppers.ui.theme.Purple40
+import com.example.kingshoppers.utils.LoadingScreen
+import com.example.kingshoppers.utils.NetworkResult
 import com.example.kingshoppers.viewModel.AuthViewModel
 import com.example.kingshoppers.viewModel.LoggedInViewModel
 
+
 @Composable
-fun AuthScreen(navController: NavController) {
+fun AuthScreen(
+    navController: NavController,
+    viewModel: AuthViewModel = hiltViewModel(),
+) {
+    val context = LocalContext.current.applicationContext
 
-    val viewModel = viewModel<AuthViewModel>()
-//    val sendOtpResponse by viewModel.sendOtpLiveData.observeAsState()
-
-
-    val loggedInViewModel = viewModel<LoggedInViewModel>()
-
+    val sendOtpResponse by viewModel.sendOtpLiveData.observeAsState()
 
     var mobileNumber by remember { mutableStateOf("") }
     var errorMobileNumber by remember { mutableStateOf(false) }
-
-    var selectedCountryCode by remember { mutableStateOf("+91") }
 
     val isNumberValid = Regex("^[6-9]\\d{9}$").matches(mobileNumber)
 
@@ -145,10 +149,26 @@ fun AuthScreen(navController: NavController) {
             }
 
         }
+
+        sendOtpResponse?.let { result ->
+            when (result) {
+                is NetworkResult.Success -> {
+                    Log.d("AuthScreenTAG", "data: ${result.data}")
+                    navController.navigate(AuthRouteScreen.Otp.withArgs(mobileNumber))
+                }
+
+                is NetworkResult.Error -> {
+                    Toast.makeText(context, "${result.message}", Toast.LENGTH_SHORT).show()
+                }
+
+                is NetworkResult.Loading -> {
+                    LoadingScreen()
+                }
+            }
+        }
     }
 
 }
-
 
 
 enum class InputStatus {

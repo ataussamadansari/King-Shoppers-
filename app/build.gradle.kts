@@ -67,4 +67,6 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:5.0.0-rc01")
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
+    implementation("com.hbb20:ccp:2.7.3")
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -23,17 +24,31 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.kingshoppers.R
-import com.example.kingshoppers.navGraph.Screens
+import com.example.kingshoppers.navGraph.Graph
 import com.example.kingshoppers.ui.theme.Purple40
 import com.example.kingshoppers.ui.theme.White
+import com.example.kingshoppers.utils.PrefManager
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    LaunchedEffect(true) {
-        delay(2500) // 2.5 seconds delay
-        navController.navigate(Screens.Main.screen) {
-            popUpTo(Screens.Splash.screen) { inclusive = true }
+    val context = LocalContext.current
+
+    val prefManager = PrefManager
+
+    LaunchedEffect(key1 = true) {
+        delay(2000) // Splash delay (2 seconds)
+
+        val isLoggedIn = prefManager.getLoginStatus(context)
+
+        if (isLoggedIn) {
+            navController.navigate(Graph.MainScreenGraph) {
+                popUpTo(Graph.AuthGraph) { inclusive = true }
+            }
+        } else {
+            navController.navigate(Graph.AuthGraph) {
+                popUpTo(Graph.SplashGraph) { inclusive = true }
+            }
         }
     }
 

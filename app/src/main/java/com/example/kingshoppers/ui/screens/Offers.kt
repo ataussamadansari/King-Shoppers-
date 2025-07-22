@@ -10,10 +10,14 @@ import androidx.compose.material3.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.kingshoppers.ui.theme.White
 
 @Composable
-fun BrandsScreen(modifier: Modifier = Modifier) {
+fun OffersScreen(
+    modifier: Modifier = Modifier,
+    rootNavController: NavController
+) {
     LazyColumn(
         modifier = Modifier
             .background(White)

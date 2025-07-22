@@ -11,10 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.kingshoppers.ui.theme.White
 
 @Composable
-fun CartScreen(modifier: Modifier = Modifier) {
+fun CartScreen(
+    modifier: Modifier = Modifier,
+    rootNavController: NavController) {
     LazyColumn(
         modifier = Modifier
             .background(White)

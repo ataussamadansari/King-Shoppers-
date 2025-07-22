@@ -55,7 +55,7 @@ import com.example.kingshoppers.viewModel.MasterCategoryViewModel
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    appNavController: NavController
+    rootNavController: NavController
 ) {
     val listState = rememberLazyListState()
     val isCollapsed by remember {

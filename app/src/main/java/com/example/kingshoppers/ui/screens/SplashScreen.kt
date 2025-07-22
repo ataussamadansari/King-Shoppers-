@@ -44,7 +44,7 @@ fun SplashScreen(navController: NavController, loggedInViewModel: LoggedInViewMo
         delay(5000)
         if (isLoggedIn) {
             navController.navigate(Graph.MainScreenGraph) {
-                popUpTo(Graph.AuthGraph) { inclusive = true }
+                popUpTo(Graph.SplashGraph) { inclusive = true }
             }
         } else {
             navController.navigate(Graph.AuthGraph) {

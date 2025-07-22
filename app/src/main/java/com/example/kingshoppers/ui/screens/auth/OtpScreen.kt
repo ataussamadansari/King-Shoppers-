@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.kingshoppers.model.auth.VerifyOtpRequest
+import com.example.kingshoppers.navGraph.Graph
 import com.example.kingshoppers.navGraph.MainScreenRoute
 import com.example.kingshoppers.utils.LoadingScreen
 import com.example.kingshoppers.utils.NetworkResult
@@ -248,8 +249,8 @@ fun OtpScreen(
                         loggedInViewModel.saveToken(it)
                         Log.d("OtpScreenTAG", "Token saved: $it")
 
-                        navController.navigate(MainScreenRoute.Home.route) {
-                            popUpTo(0)
+                        navController.navigate(Graph.MainScreenGraph) {
+                            popUpTo(Graph.AuthGraph) { inclusive = true }
                         }
                     }
 

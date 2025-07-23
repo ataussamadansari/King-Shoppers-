@@ -53,13 +53,20 @@ class UserRepository @Inject constructor(private val userAPI: UserAPI) {
 
     private fun <T> handleApiResponse(response: Response<T>): NetworkResult<T> {
         return if (response.isSuccessful && response.body() != null) {
-            Log.d("Repository", "✅ API Success: ${response.body()}")
             NetworkResult.Success(response.body()!!)
         } else {
             val errorMessage = response.errorBody()?.string() ?: "Something went wrong"
-            Log.e("Repository", "❌ API Error: $errorMessage")
             NetworkResult.Error(errorMessage)
         }
     }
+
+    fun clearSendOtpLiveData() {
+        _sendOtpLiveData.postValue(null)
+    }
+
+    fun clearVerifyOtpLiveData() {
+        _verifyOtpLiveData.postValue(null)
+    }
+
 
 }

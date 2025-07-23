@@ -24,28 +24,28 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Api
-import androidx.compose.material.icons.filled.LocalOffer
-import androidx.compose.material.icons.filled.Wallet
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -63,11 +63,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.kingshoppers.R
+import com.example.kingshoppers.navGraph.AuthRouteScreen
+import com.example.kingshoppers.navGraph.Graph
 import com.example.kingshoppers.ui.screens.profile.items.ButtonItems
+import com.example.kingshoppers.ui.screens.profile.items.OptionItem
 import com.example.kingshoppers.ui.theme.Purple40
-import com.example.kingshoppers.ui.theme.Purple80
+import com.example.kingshoppers.utils.profileOptionMenu.LogoutDialog
+import com.example.kingshoppers.utils.profileOptionMenu.getProfileSections
+import com.example.kingshoppers.viewModel.LoggedInViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -193,6 +199,7 @@ fun ProfileScreen(modifier: Modifier = Modifier, rootNavController: NavControlle
 
                 ProfileBody(
                     modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+                    rootNavController = rootNavController
                 )
             }
         }
@@ -250,7 +257,20 @@ fun ButtonsGrid(
 @Composable
 fun ProfileBody(
     modifier: Modifier = Modifier,
+    rootNavController: NavController
 ) {
+
+    var showLogoutDialog by remember { mutableStateOf(false) }
+
+    val profileSections = getProfileSections(
+        onOptionClick = { title ->
+            when (title) {
+                "LogOut" -> showLogoutDialog = true
+//                "My Referrals" -> rootNavController.navigate("referrals")
+            }
+        }
+    )
+
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -279,17 +299,27 @@ fun ProfileBody(
             )
         }
 
-
-        item {
-            Card(
-                modifier = Modifier
-                    .height(1000.dp)
-                    .fillMaxWidth(),
-                colors = CardDefaults.cardColors(Purple80)
-            ) {
-
+        // option
+        items(profileSections) { section ->
+            section.options.forEachIndexed { index, option ->
+                OptionItem(
+                    title = if (index == 0) section.sectionTitle else null,
+                    optionTitle = option.title,
+                    icon = option.icon,
+                    contentColor = option.contentColor,
+                    isActive = option.isActive,
+                    onClick = option.onClick
+                )
             }
         }
+    }
+
+    // Dialog shown separately inside @Composable
+    if (showLogoutDialog) {
+        LogoutDialog(
+            rootNavController = rootNavController,
+            onDismiss = { showLogoutDialog = false }
+        )
     }
 }
 

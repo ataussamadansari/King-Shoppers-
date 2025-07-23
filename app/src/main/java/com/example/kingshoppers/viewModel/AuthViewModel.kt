@@ -13,14 +13,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class AuthViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
 
-    val sendOtpLiveData : LiveData<NetworkResult<SendOtpResponse>>
+    val sendOtpLiveData: LiveData<NetworkResult<SendOtpResponse>>
         get() = userRepository.sendOtpLiveData
 
-    val verifyOtpLiveData : LiveData<NetworkResult<VerifyOtpResponse>>
+    val verifyOtpLiveData: LiveData<NetworkResult<VerifyOtpResponse>>
         get() = userRepository.verifyOtpLiveData
 
 
@@ -34,5 +33,13 @@ class AuthViewModel @Inject constructor(private val userRepository: UserReposito
         viewModelScope.launch {
             userRepository.verifyOtp(verifyOtpRequest)
         }
+    }
+
+    fun clearSendOtpLiveData() {
+        userRepository.clearSendOtpLiveData()
+    }
+
+    fun clearVerifyOtpLiveData() {
+        userRepository.clearVerifyOtpLiveData()
     }
 }

@@ -18,12 +18,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -37,11 +37,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.kingshoppers.R
 import com.example.kingshoppers.model.auth.SendOtpRequest
@@ -50,7 +48,7 @@ import com.example.kingshoppers.ui.theme.Purple40
 import com.example.kingshoppers.utils.LoadingScreen
 import com.example.kingshoppers.utils.NetworkResult
 import com.example.kingshoppers.viewModel.AuthViewModel
-import com.example.kingshoppers.viewModel.LoggedInViewModel
+import org.json.JSONObject
 
 
 @Composable
@@ -67,7 +65,6 @@ fun AuthScreen(
 
     val isNumberValid = Regex("^[6-9]\\d{9}$").matches(mobileNumber)
 
-
     var inputStatus by remember { mutableStateOf(InputStatus.DEFAULT) }
 
     val borderColor = when (inputStatus) {
@@ -81,7 +78,7 @@ fun AuthScreen(
         modifier = Modifier.fillMaxSize()
     ) {
 
-        topBg()
+        TopBg()
 
         Column(
             modifier = Modifier
@@ -153,19 +150,45 @@ fun AuthScreen(
         sendOtpResponse?.let { result ->
             when (result) {
                 is NetworkResult.Success -> {
-                    Log.d("AuthScreenTAG", "data: ${result.data}")
+                    /*Log.d("AuthScreenTAG", "data: ${result.data}")
+                    Toast.makeText(
+                        context,
+                        "OTP: ${result.data?.results?.otp}",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
                     navController.navigate(AuthRouteScreen.Otp.withArgs(mobileNumber))
+                    viewModel.clearSendOtpLiveData()*/
+
+                    LaunchedEffect(Unit) {
+                        Log.d("AuthScreenTAG", "data: ${result.data}")
+                        val otp = sendOtpResponse?.data?.results?.otp
+                        Toast.makeText(context, "OTP: $otp", Toast.LENGTH_SHORT).show()
+                        navController.navigate(AuthRouteScreen.Otp.withArgs(mobileNumber))
+                        viewModel.clearSendOtpLiveData()
+                    }
                 }
 
                 is NetworkResult.Error -> {
-                    Toast.makeText(context, "${result.message}", Toast.LENGTH_SHORT).show()
+                    try {
+                        val json = JSONObject(result.message ?: "")
+                        val innerMessage =
+                            json.getString("message")
+                        Toast.makeText(context, innerMessage, Toast.LENGTH_SHORT).show()
+                        Log.d("AuthScreenTAG", innerMessage)
+                        viewModel.clearSendOtpLiveData()
+                    } catch (e: Exception) {
+                        Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT)
+                            .show()
+                        Log.e("AuthScreenTAG", "Parsing error: ${e.message}")
+                    }
                 }
-
                 is NetworkResult.Loading -> {
                     LoadingScreen()
                 }
             }
         }
+
     }
 
 }
@@ -176,7 +199,7 @@ enum class InputStatus {
 }
 
 @Composable
-fun topBg() {
+fun TopBg() {
 
     Column {
         Image(
@@ -233,7 +256,5 @@ fun topBg() {
                 painter = painterResource(R.drawable.title_logo_2), contentDescription = null
             )
         }
-
-
     }
 }

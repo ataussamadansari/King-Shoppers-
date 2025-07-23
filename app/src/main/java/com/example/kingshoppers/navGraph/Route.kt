@@ -11,6 +11,7 @@ object Graph {
 sealed class SplashRouteScreen(val route: String) {
     object Splash : SplashRouteScreen("splash")
 }
+
 sealed class AuthRouteScreen(val route: String) {
     object Login : AuthRouteScreen("login")
 
@@ -27,3 +28,6 @@ sealed class MainScreenRoute(val route: String) {
     object Cart : MainScreenRoute("cart")
 }
 
+sealed class HomeScreenRoute(val route: String) {
+    object ProfileScreen: HomeScreenRoute("profile")
+}

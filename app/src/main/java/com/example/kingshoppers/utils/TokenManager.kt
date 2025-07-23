@@ -5,6 +5,7 @@ import com.example.kingshoppers.utils.Constants.PREFS_TOKEN_FILE
 import com.example.kingshoppers.utils.Constants.USER_TOKEN
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import androidx.core.content.edit
 
 class TokenManager @Inject constructor(@ApplicationContext context: Context) {
 
@@ -18,5 +19,9 @@ class TokenManager @Inject constructor(@ApplicationContext context: Context) {
 
     fun getToken(): String? {
         return pref.getString(USER_TOKEN, null)
+    }
+
+    fun clearToken() {
+        pref.edit { clear() }
     }
 }

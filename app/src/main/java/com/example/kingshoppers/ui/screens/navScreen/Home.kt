@@ -1,4 +1,4 @@
-package com.example.kingshoppers.ui.screens
+package com.example.kingshoppers.ui.screens.navScreen
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -41,6 +42,7 @@ import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.kingshoppers.model.BannerItem
 import com.example.kingshoppers.model.layouts.HomeSection
+import com.example.kingshoppers.navGraph.HomeScreenRoute
 import com.example.kingshoppers.ui.screens.itemLayout.DealLayout
 import com.example.kingshoppers.ui.screens.itemLayout.LootLayout
 import com.example.kingshoppers.ui.screens.masterCategories.MasterCategoryItem
@@ -99,7 +101,10 @@ fun HomeScreen(
                     Icon(
                         imageVector = Icons.Default.Storefront,
                         contentDescription = null,
-                        tint = White
+                        tint = White,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(4.dp)
                     )
                     Column(modifier = Modifier.weight(1f)) {
                         Row {
@@ -118,11 +123,18 @@ fun HomeScreen(
                             color = White,
                         )
                     }
-                    IconButton(onClick = {}) {
+                    IconButton(
+                        onClick = {
+                            rootNavController.navigate(HomeScreenRoute.ProfileScreen.route)
+                        },
+                    ) {
                         Icon(
                             imageVector = Icons.Default.Person,
                             contentDescription = null,
-                            tint = White
+                            tint = White,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(4.dp)
                         )
                     }
                 }

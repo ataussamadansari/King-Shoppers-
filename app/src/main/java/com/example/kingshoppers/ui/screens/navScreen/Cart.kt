@@ -1,4 +1,4 @@
-package com.example.kingshoppers.ui.screens
+package com.example.kingshoppers.ui.screens.navScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,10 +14,9 @@ import androidx.navigation.NavController
 import com.example.kingshoppers.ui.theme.White
 
 @Composable
-fun OffersScreen(
+fun CartScreen(
     modifier: Modifier = Modifier,
-    rootNavController: NavController
-) {
+    rootNavController: NavController) {
     LazyColumn(
         modifier = Modifier
             .background(White)

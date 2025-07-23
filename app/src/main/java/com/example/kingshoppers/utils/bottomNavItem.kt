@@ -1,15 +1,7 @@
 package com.example.kingshoppers.utils
 
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Settings
+import com.example.kingshoppers.R
 import com.example.kingshoppers.navGraph.MainScreenRoute
 import com.example.kingshoppers.navGraph.NavigationItem
 
@@ -17,27 +9,25 @@ val bottomNavigationItemsList = listOf(
     NavigationItem(
         title = "Home",
         route = MainScreenRoute.Home.route,
-        selectedIcon = Icons.Filled.Home,
-        unSelectedIcon = Icons.Outlined.Home,
+        selectedIcon = R.drawable.ic_home,
+        unSelectedIcon = R.drawable.ic_home,
     ),
     NavigationItem(
-        title = "Profile",
+        title = "Orders",
         route = MainScreenRoute.Order.route,
-        selectedIcon = Icons.Filled.Person,
-        unSelectedIcon = Icons.Outlined.Person,
+        selectedIcon = R.drawable.ic_orders,
+        unSelectedIcon = R.drawable.ic_orders,
     ),
     NavigationItem(
-        title = "Notification",
+        title = "Offers",
         route = MainScreenRoute.Offers.route,
-        selectedIcon = Icons.Filled.Notifications,
-        unSelectedIcon = Icons.Outlined.Notifications,
-        badgeCount = 9
+        selectedIcon = R.drawable.ic_offers,
+        unSelectedIcon = R.drawable.ic_offers,
     ),
     NavigationItem(
-        title = "Setting",
+        title = "Cart",
         route = MainScreenRoute.Cart.route,
-        selectedIcon = Icons.Filled.Settings,
-        unSelectedIcon = Icons.Outlined.Settings,
-        hasBadgeDot = true
+        selectedIcon = R.drawable.ic_shopping_bag,
+        unSelectedIcon = R.drawable.ic_shopping_bag,
     ),
 )

@@ -7,10 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.kingshoppers.navGraph.Graph
 import com.example.kingshoppers.navGraph.MainScreenRoute
-import com.example.kingshoppers.ui.screens.CartScreen
-import com.example.kingshoppers.ui.screens.HomeScreen
-import com.example.kingshoppers.ui.screens.OffersScreen
-import com.example.kingshoppers.ui.screens.OrderScreen
+import com.example.kingshoppers.ui.screens.navScreen.CartScreen
+import com.example.kingshoppers.ui.screens.navScreen.HomeScreen
+import com.example.kingshoppers.ui.screens.navScreen.OffersScreen
+import com.example.kingshoppers.ui.screens.navScreen.OrderScreen
 
 @Composable
 fun MainNavGraph(

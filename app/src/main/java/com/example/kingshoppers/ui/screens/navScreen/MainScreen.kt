@@ -1,4 +1,4 @@
-package com.example.kingshoppers.ui.screens
+package com.example.kingshoppers.ui.screens.navScreen
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold

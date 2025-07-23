@@ -14,4 +14,8 @@ class LoggedInViewModel @Inject constructor(private val tokenManager: TokenManag
     fun saveToken(token: String) {
         tokenManager.saveToken(token)
     }
+
+    fun clearToken() {
+        tokenManager.clearToken()
+    }
 }

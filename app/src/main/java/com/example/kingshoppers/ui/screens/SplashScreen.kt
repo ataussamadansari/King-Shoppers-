@@ -41,7 +41,7 @@ fun SplashScreen(navController: NavController, loggedInViewModel: LoggedInViewMo
     val isLoggedIn = loggedInViewModel.isLoggedIn()
 
     LaunchedEffect(Unit) {
-        delay(5000)
+        delay(3000)
         if (isLoggedIn) {
             navController.navigate(Graph.MainScreenGraph) {
                 popUpTo(Graph.SplashGraph) { inclusive = true }

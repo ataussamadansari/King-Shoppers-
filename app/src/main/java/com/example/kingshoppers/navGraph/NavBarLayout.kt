@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,17 +38,17 @@ fun BottomNavigationBar(
                         }
                     }) {
                         Icon(
-                            imageVector = if (currentRoute == navigationItem.route) {
+                            painter = painterResource(if (currentRoute == navigationItem.route) {
                                 navigationItem.selectedIcon
                             } else {
                                 navigationItem.unSelectedIcon
-                            }, contentDescription = navigationItem.title
+                            }), contentDescription = navigationItem.title
                         )
                     }
                 }, label = {
                     Text(text = navigationItem.title)
                 },
-                alwaysShowLabel = false)
+                alwaysShowLabel = true)
         }
     }
 }
